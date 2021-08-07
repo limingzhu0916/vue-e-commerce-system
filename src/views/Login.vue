@@ -32,7 +32,7 @@
         </el-form-item>
         <!-- 登录按钮 -->
         <el-form-item class="btns">
-          <el-button type="primary">登录</el-button>
+          <el-button type="primary" @click="login">登录</el-button>
           <el-button type="info" @click="resetLoginForm">重置</el-button>
         </el-form-item>
       </el-form>
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { postLogin } from "network/login.js";
+
 export default {
   data() {
     return {
@@ -78,8 +80,25 @@ export default {
     // 重置按钮事件
     resetLoginForm() {
       // 重置表单
-      this.$refs.loginFormRef.resetFields()
-    }
+      this.$refs.loginFormRef.resetFields();
+    },
+    // 登录按钮校验事件
+    login() {
+      this.$refs.loginFormRef.validate(async (valid) => {
+        if (!valid) return;
+        // 登录信息校验成功，发送请求
+        const { data } = await postLogin(this.loginForm);
+        // 判断响应体的状态码
+        if (data.meta.status !== 200) {
+          return this.$message.error("登录失败")
+        }
+        this.$message.success("登录成功")
+        // 登录成功后保存token到客户端
+        window.sessionStorage.setItem('token', data.data.token)
+        // 跳转页面
+        this.$router.push('/home')
+      });
+    },
   },
 };
 </script>
