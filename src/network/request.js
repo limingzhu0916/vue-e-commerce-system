@@ -7,7 +7,17 @@ export function request(config) {
     timeout: 5000
   })
 
-  // 响应拦截
+  // 请求拦截器
+  instance1.interceptors.request.use(config => {
+  // 携带token
+  config.headers.Authorization = window.sessionStorage.getItem('token')
+  return config;
+  },error => {
+  // Do something with request error
+  return Promise.reject(error);
+  });
+
+  // 响应拦截器
   // instance1.interceptors.response.use(res => {
   //   // Do something before response is sent
   //   return res;
