@@ -7,7 +7,7 @@
       <el-breadcrumb-item>用户列表</el-breadcrumb-item>
     </el-breadcrumb>
     <!-- 卡片视图区域 -->
-    <el-card class="box-card">
+    <el-card>
       <!-- 搜索框 -->
       <el-row :gutter="40">
         <el-col :span="10">
@@ -76,6 +76,7 @@
                 size="mini"
                 type="warning"
                 icon="el-icon-setting"
+                @click="setRole(scope.row)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -161,6 +162,39 @@
           <el-button type="primary" @click="editUserInfo"> 确 定 </el-button>
         </span>
       </el-dialog>
+      <!-- 分配用户角色的对话框 -->
+      <el-dialog
+        title="分配角色"
+        :visible.sync="setRoleDialogVisible"
+        width="50%"
+        class="setRole"
+        @close = "setRoleDialogClosed"
+      >
+        <!-- 内容主体 -->
+        <div>
+          <p>当前的用户: {{ userInfo.username }}</p>
+          <p>当前的角色: {{ userInfo.role_name }}</p>
+          <p>
+            分配新角色
+            <el-select placeholder="请选择" v-model="selectedRoleId">
+              <el-option
+                v-for="item in roleList"
+                :key="item.id"
+                :label="item.roleName"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </p>
+        </div>
+        <!-- 底部区域 -->
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="setRoleDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="saveRoleInfo">
+            确 定
+          </el-button>
+        </span>
+      </el-dialog>
     </el-card>
   </div>
 </template>
@@ -173,7 +207,9 @@ import {
   getUserInfoById,
   putNewUserInfo,
   deleteUserInfo,
-} from "network/home";
+  putUsersRoleInfo
+} from "network/users";
+import { getAllRoles } from 'network/power' 
 export default {
   data() {
     // 验证邮箱的规则
@@ -259,6 +295,14 @@ export default {
           { validator: checkMobile, trigger: "blur" },
         ],
       },
+      // 控制分配用户角色对话框的显示与隐藏
+      setRoleDialogVisible: false,
+      // 需要被分配角色的用户信息
+      userInfo: {},
+      // 所有角色的数据列表
+      roleList: [],
+      // 已选中的角色id值
+      selectedRoleId: ''
     };
   },
   created() {
@@ -360,21 +404,49 @@ export default {
           cancelButtonText: "取消",
           type: "warning",
         }
-      ).catch(err => err)
+      ).catch((err) => err);
       // 取消删除，res 为canle字符串
       // 确定删除，res 为confirm字符串
-      if(confirmRes !== 'confirm'){
-        return this.$message.info("取消删除")
+      if (confirmRes !== "confirm") {
+        return this.$message.info("取消删除");
       }
-      const {data: res} = await deleteUserInfo(id)
+      const { data: res } = await deleteUserInfo(id);
       if (res.meta.status !== 200) {
-          return this.$message.error("删除用户数据失败");
-        }
-        // 更新数据
-        this.getUsersInfo();
-        this.$message.success("删除用户数据成功");
-      
+        return this.$message.error("删除用户数据失败");
+      }
+      // 更新数据
+      this.getUsersInfo();
+      this.$message.success("删除用户数据成功");
     },
+    // 展示分配角色的对话框
+    async setRole(userInfo) {
+      this.userInfo = userInfo;
+      const { data: res } = await getAllRoles();
+      this.setRoleDialogVisible = true;
+      if (res.meta.status !== 200) {
+        return this.$message.error("获取角色列表失败");
+      }
+      this.roleList = res.data;
+    },
+    // 点击按钮，分配角色
+    async saveRoleInfo() {
+      if(!this.selectedRoleId){
+        this.$message.error("请选择要分配的角色")
+      }
+      console.log(this.selectedRoleId);
+      const { data: res } = await putUsersRoleInfo(this.userInfo.id, this.selectedRoleId);
+      console.log(res)
+      if (res.meta.status !== 200) {
+        return this.$message.error("更新角色失败");
+      }
+      this.setRoleDialogVisible = false
+      this.getUsersInfo()
+      this.$message.success("更新角色成功")
+    },
+    // 监听分配用户角色的对话框关闭
+    setRoleDialogClosed() {
+      this.selectedRoleId = ''
+    }
   },
 };
 </script>
@@ -395,5 +467,9 @@ export default {
 }
 .el-pagination {
   margin-top: 20px;
+}
+.setRole p{
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 </style>

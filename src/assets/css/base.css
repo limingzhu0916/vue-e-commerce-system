@@ -5,6 +5,8 @@ html,
 body, 
 #app{
   height: 100%;
+  max-width: 100%;
+  min-width: 1039px;
 }
 
 /* 消除元素固有样式 */
