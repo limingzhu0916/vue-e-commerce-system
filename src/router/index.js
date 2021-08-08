@@ -2,10 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 const Login = () => import("views/Login.vue")
-const Home = () => import("views/Home/Home.vue")
-const Welcome = () => import("views/Home/childComps/Welcome.vue")
-const User = () => import("components/user/User.vue")
-const GoodsList = () => import("components/goods/GoodsList.vue")
+const Home = () => import("views/home/Home.vue")
+const Welcome = () => import("views/home/childComps/Welcome.vue")
+const User = () => import("views/users/User.vue")
+const GoodsList = () => import("views/goods/GoodsList.vue")
 
 Vue.use(VueRouter)
 
