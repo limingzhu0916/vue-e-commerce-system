@@ -10,9 +10,9 @@
     <!-- 卡片视图 -->
     <el-card>
       <!-- 添加角色框 -->
-      <el-row class="add-role">
+      <el-row>
         <el-col>
-          <el-button type="primary" @click="addRoleDialogVisible = true"
+          <el-button type="primary" @click="addRoleDialogVisible = true" class="add-role"
             >添加角色</el-button
           >
         </el-col>
@@ -365,9 +365,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.el-breadcrumb,
 .add-role {
-  margin-bottom: 20px;
+  background-color: #7b99be;
+  border-color: #7b99be;
 }
 .el-tag {
   margin: 7px;

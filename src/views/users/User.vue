@@ -452,21 +452,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.el-breadcrumb {
-  margin-bottom: 20px;
-}
-.el-card {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15) !important;
-}
 .add-user {
   background-color: #7b99be;
   border-color: #7b99be;
-}
-.el-table {
-  margin-top: 20px;
-}
-.el-pagination {
-  margin-top: 20px;
 }
 .setRole p{
   font-size: 15px;
