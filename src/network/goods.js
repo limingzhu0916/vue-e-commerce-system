@@ -81,3 +81,10 @@ export function putEditParamsInfo(id, attrId, data) {
     data
   })
 }
+
+export function getGoodListInfo(params) {
+  return request({
+    url: '/goods',
+    params
+  })
+}
