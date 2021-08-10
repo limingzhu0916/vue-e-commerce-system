@@ -10,6 +10,7 @@ const Roles = () => import("views/power/Roles.vue")
 const Cate = () => import("views/goods/Cate.vue")
 const GoodsParams = () => import("views/goods/GoodsParams.vue")
 const GoodsList = () => import("views/goods/GoodsList.vue")
+const Add = () => import("views/goods/childComps/Add.vue")
 
 Vue.use(VueRouter)
 
@@ -53,9 +54,12 @@ const routes = [
       },
       {
         path: '/goods',
-        component: GoodsList
-      }
-      
+        component: GoodsList,
+      },
+      {
+        path: '/goods/add',
+        component: Add
+      },
     ]
   }
 ]

@@ -88,3 +88,18 @@ export function getGoodListInfo(params) {
     params
   })
 }
+// 根据商品id删除
+export function deleteGoodsById(id) {
+  return request({
+    url: `goods/${id}`,
+    method: 'delete'
+  })
+}
+// 添加商品
+export function postNewGoodsInfo(data){
+  return request({
+    url: '/goods',
+    method: 'post',
+    data
+  })
+}

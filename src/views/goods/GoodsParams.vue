@@ -250,7 +250,7 @@ export default {
         value: "cat_id",
         label: "cat_name",
         children: "children",
-        checkStrictly: true,
+        // checkStrictly: true,
       },
       // 级联选择框双向绑定到的数组
       selectedCateKeys: [],
