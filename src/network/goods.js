@@ -36,3 +36,48 @@ export function deleteCateName(id){
     method: 'delete'
   })
 }
+// 获取分类参数列表
+export function getCateAttrInfo(id, sel) {
+  return request({
+    url: `categories/${id}/attributes`,
+    params: sel
+  })
+}
+// 添加动态参数或者静态属性请求
+export function postGoodsParamsInfo(id, data){
+  return request({
+    url: `categories/${id}/attributes`,
+    method: 'post',
+    data
+  })
+}
+//  根据 ID 查询参数
+export function getParamsById(id, attrId, params){
+  return request({
+    url: `categories/${id}/attributes/${attrId}`,
+    params
+  })
+}
+// 将编辑的参数提交到服务器
+export function putNewParamsInfo(id, attrId, data) {
+  return request({
+    url: `categories/${id}/attributes/${attrId}`,
+    method: 'put',
+    data
+  })
+}
+// 根据id 删除参数
+export function deleteParamsById(id, attrId) {
+  return request({
+    url: `categories/${id}/attributes/${attrId}`,
+    method: 'delete',
+  })
+}
+// 编辑提交参数
+export function putEditParamsInfo(id, attrId, data) {
+  return request({
+    url: `/categories/${id}/attributes/${attrId}`,
+    method: 'put',
+    data
+  })
+}

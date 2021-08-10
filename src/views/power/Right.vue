@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.el-table {
+.el-table{
   margin-top: 0;
 }
 </style>
