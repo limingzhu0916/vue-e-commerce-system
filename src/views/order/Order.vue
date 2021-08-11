@@ -41,7 +41,7 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120px">
-          <template slot-scope="scope">
+          <template>
             <!-- 编辑按钮 -->
             <el-button
               size="mini"
@@ -124,7 +124,7 @@
 import { getOrdersListInfo, getKuaidiInfo } from "network/order";
 import { formatDate } from "assets/util";
 import cityData from "./citydata";
-import progressInfo from './progressInfo.json'
+import progressInfo from "./progressInfo.json";
 export default {
   data() {
     return {
@@ -157,7 +157,7 @@ export default {
       // 控制物流进度对话框的现实与隐藏
       progressVisible: false,
       // 物流进度信息
-      progressInfo: progressInfo.data
+      progressInfo: progressInfo.data,
     };
   },
   created() {
@@ -210,7 +210,7 @@ export default {
 .el-cascader {
   width: 100%;
 }
-.el-timeline{
+.el-timeline {
   margin-left: 20px;
 }
 </style>
