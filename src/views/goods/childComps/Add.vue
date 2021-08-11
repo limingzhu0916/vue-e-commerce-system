@@ -122,18 +122,19 @@
       </el-form>
     </el-card>
     <!-- 图片预览 -->
-    <el-dialog
-  title="图片预览"
-  :visible.sync="previewdialog"
-  width="50%">
-  <img :src="previewPath" alt="" class="previewImg">
-</el-dialog>
+    <el-dialog title="图片预览" :visible.sync="previewdialog" width="50%">
+      <img :src="previewPath" alt="" class="previewImg" />
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getCateListInfo, getCateAttrInfo, postNewGoodsInfo } from "network/goods";
-import _ from 'lodash'
+import {
+  getCateListInfo,
+  getCateAttrInfo,
+  postNewGoodsInfo,
+} from "network/goods";
+import _ from "lodash";
 export default {
   data() {
     return {
@@ -148,8 +149,8 @@ export default {
         goods_cat: [],
         pics: [],
         // 商品详情描述
-        goods_introduce: '',
-        attrs: []
+        goods_introduce: "",
+        attrs: [],
       },
       addFormRules: {
         goods_name: [
@@ -185,12 +186,12 @@ export default {
       uploadURL: "http://127.0.0.1:8888/api/private/v1/upload",
       // 图片上传组件的headers请求头对象
       headersObj: {
-        Authorization: window.sessionStorage.getItem("token")
+        Authorization: window.sessionStorage.getItem("token"),
       },
       // 预览路径
-      previewPath: '',
+      previewPath: "",
       // 控制图片预览对话框的显示与隐藏
-      previewdialog: false
+      previewdialog: false,
     };
   },
   created() {
@@ -244,56 +245,58 @@ export default {
     },
     // 处理预览图片操作
     handlePreview(file) {
-      this.previewPath = file.response.data.url
-      this.previewdialog = true
+      this.previewPath = file.response.data.url;
+      this.previewdialog = true;
     },
     // 处理移除图片操作
     handleRemove(file) {
       // 查找到要删除图片的临时路径在数组中的的索引值
-      const i = this.addForm.pics.findIndex(x => x.pic === file.response.data.tmp_path)
+      const i = this.addForm.pics.findIndex(
+        (x) => x.pic === file.response.data.tmp_path
+      );
       // 删除临时路径
-      this.addForm.pics.splice(i, 1)
+      this.addForm.pics.splice(i, 1);
       console.log(this.addForm.pics);
     },
     // 监听图片上传成功
     handleSuccess(response) {
-      this.addForm.pics.push({pic: response.data.tmp_path})
+      this.addForm.pics.push({ pic: response.data.tmp_path });
     },
     // 添加商品按钮点击事件
     addGoods() {
-      this.$refs.addFormRef.validate(async valid => {
-        if(!valid){
-          return this.$message.error("请填写必要的表单项")
+      this.$refs.addFormRef.validate(async (valid) => {
+        if (!valid) {
+          return this.$message.error("请填写必要的表单项");
         }
         // 发起添加商品请求
         // 处理动态参数
-        this.manyTableData.forEach(item => {
+        this.manyTableData.forEach((item) => {
           const newInfo = {
             attr_id: item.attr_id,
-            attr_value: item.attr_vals.join(' ')
-          }
-          this.addForm.attrs.push(newInfo)
-        })
+            attr_value: item.attr_vals.join(" "),
+          };
+          this.addForm.attrs.push(newInfo);
+        });
         // 处理静态属性
-        this.onlyTableData.forEach(item => {
+        this.onlyTableData.forEach((item) => {
           const newInfo = {
             attr_id: item.attr_id,
-            attr_value: item.attr_vals
-          }
-          this.addForm.attrs.push(newInfo)
-        })
+            attr_value: item.attr_vals,
+          };
+          this.addForm.attrs.push(newInfo);
+        });
         // 深拷贝
-        const form = _.cloneDeep(this.addForm)
-        form.goods_cat = form.goods_cat.join(',')
-        const {data: res} = await postNewGoodsInfo(form)
-        if(res.meta.status !== 201){
-          return this.$message.error("添加商品失败")
+        const form = _.cloneDeep(this.addForm);
+        form.goods_cat = form.goods_cat.join(",");
+        const { data: res } = await postNewGoodsInfo(form);
+        if (res.meta.status !== 201) {
+          return this.$message.error("添加商品失败");
         }
-        this.$message.success("添加商品成功")
+        this.$message.success("添加商品成功");
         // 导航到goods页面
-        this.$router.push('/goods')
-      })
-      }
+        this.$router.push("/goods");
+      });
+    },
   },
   computed: {
     cateId() {
@@ -311,10 +314,10 @@ export default {
 .el-checkbox {
   margin: 0 10px 0 0 !important;
 }
-.previewImg{
+.previewImg {
   width: 100%;
 }
-.el-button{
+.el-button {
   margin-top: 15px;
 }
 </style>
